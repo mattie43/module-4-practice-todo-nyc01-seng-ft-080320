@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Categories from './Categories'
 import Tasks from './Tasks'
+import Form from './Form'
 
 class App extends React.Component {
 
@@ -51,14 +52,24 @@ class App extends React.Component {
     }
   }
 
+  removeTask = (obj) => {
+    this.setState({tasks: this.state.tasks.filter(task => task.text !== obj.childNodes[1].innerText)})
+  }
+
+  newTask = (obj) => {
+    this.setState({tasks: [...this.state.tasks, obj]})
+  }
+
   render() {
     return (
       <div className="App">
         <h2>My tasks</h2>
+        <h5>Category filters</h5>
         <Categories currentCategory={this.state.currentCategory} changeCategory={this.changeCategory}/>
         <div className="tasks">
           <h5>Tasks</h5>
-          <Tasks tasks={this.filterTasks()}/>
+          <Form newTask={this.newTask}/>
+          <Tasks removeTask={this.removeTask} tasks={this.filterTasks()}/>
         </div>
       </div>
     );
